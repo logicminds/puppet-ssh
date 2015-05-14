@@ -1,0 +1,10 @@
+## MAC OS
+.DS_Store
+
+## PROJECT::GENERAL
+coverage
+coverage.info
+rdoc
+pkg
+tmp
+
