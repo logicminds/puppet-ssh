@@ -1,7 +1,5 @@
 #
 class ssh::config inherits ssh {
-  # remove the include?
-  include ssh::params
 
   file { '/etc/ssh/sshd_config':
     ensure  => file,

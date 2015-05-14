@@ -31,10 +31,45 @@ class ssh (
     $sshd_config_template      = $ssh::params::sshd_config_template
   ) inherits ssh::params {
 
-  #contain ssh::params
-  contain ssh::install
-  contain ssh::config
-  contain ssh::service
+  validate_re($allow_tcp_forwarding,
+    ['yes', 'no']
+  )
+
+  validate_re($ciphers,
+    ['3des-cbc', 'aes128-cbc', 'aes192-cbc', 'aes256-cbc', 'aes128-ctr', 'aes192-ctr', 'aes256-ctr', 'arcfour128', 'arcfour256', 'arcfour', 'blowfish-cbc', 'cast128-cbc']
+  )
+
+  validate_re($hostbased_authentication,
+    ['yes', 'no']
+  )
+
+  validate_re($ignore_rhosts,
+    ['yes', 'no']
+  )
+
+  validate_re($log_level,
+    ["QUIET", "FATAL", "ERROR", "INFO", "VERBOSE", "DEBUG", "DEBUG1", "DEBUG2", "DEBUG3"]
+  )
+
+  validate_re($permit_empty_passwords,
+    ['yes', 'no']
+  )
+
+  validate_re($permit_root_login,
+    ['yes', 'no', 'without-password', 'forced-commands-only']
+  )
+
+  validate_re($permit_user_environment,
+    ['yes', 'no']
+  )
+
+  validate_re($rhosts_rsa_authentication,
+    ['yes', 'no']
+  )
+
+  include ssh::install
+  include ssh::config
+  include ssh::service
 
   Class['ssh::params'] -> Class ['ssh::install'] -> Class ['ssh::config'] ~> Class ['ssh::service']
 

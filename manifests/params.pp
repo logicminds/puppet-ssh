@@ -7,7 +7,7 @@ class ssh::params {
   $client_alive_interval     = '300'
   $hostbased_authentication  = 'no'
   $ignore_rhosts             = 'yes'
-  $listen_address            = ''
+  $listen_address            = '0.0.0.0'
   $log_level                 = "VERBOSE"
   $macs                      = 'hmac-sha1'
   $max_auth_tries            = '3'

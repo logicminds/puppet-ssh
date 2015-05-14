@@ -1,6 +1,8 @@
 {
   "author": "Chris Belyea <cbelyea@singlestoneconsulting.com>",
-  "dependencies": [],
+  "dependencies": [
+    { "name": "puppetlabs/stdlib", "version_requirement": ">=1.0.0" }
+  ],
   "license": "",
   "name": "nationalit-ssh",
   "operatingsystem_support": [
