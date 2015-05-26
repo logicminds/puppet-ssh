@@ -1,6 +1,5 @@
 #
 class ssh::params {
-
   $allow_groups              = ''
   $allow_tcp_forwarding      = 'no'
   $allow_users               = ''
