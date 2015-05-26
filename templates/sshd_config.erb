@@ -119,9 +119,10 @@ AcceptEnv XMODIFIERS
 
 #AllowAgentForwarding yes
 #AllowTcpForwarding yes
+AllowTcpForwarding <%= @allow_tcp_forwarding %>
 #GatewayPorts no
 #X11Forwarding no
-X11Forwarding yes
+X11Forwarding <%= @x11_forwarding %>
 #X11DisplayOffset 10
 #X11UseLocalhost yes
 #PrintMotd yes
@@ -152,7 +153,18 @@ Subsystem sftp  /usr/libexec/openssh/sftp-server
 
 # Example of overriding settings on a per-user basis
 #Match User anoncvs
-# X11Forwarding no
 # AllowTcpForwarding no
-AllowTcpForwarding <%= @allow_tcp_forwarding %>
 # ForceCommand cvs server
+
+<% if @allow_users != "" %>
+AllowUsers <%= @allow_users %>
+<% end %>
+<% if @allow_groups != "" %>
+AllowGroups <%= @allow_groups %>
+<% end %>
+<% if @deny_users != "" %>
+DenyUsers <%= @deny_users %>
+<% end %>
+<% if @deny_groups != "" %>
+DenyGroups <%= @deny_groups %>
+<% end %>

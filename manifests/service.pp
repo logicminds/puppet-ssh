@@ -2,8 +2,8 @@
 class ssh::service inherits ssh {
 
   service { 'sshd':
-    ensure => running,
-    enable => true,
+    ensure => $service_ensure,
+    enable => $service_enable,
   }
 
 }

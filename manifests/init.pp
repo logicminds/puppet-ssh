@@ -11,24 +11,32 @@
 # Sample Usage:
 #
 class ssh (
+    $allow_groups              = $ssh::params::allow_groups,
     $allow_tcp_forwarding      = $ssh::params::allow_tcp_forwarding,
+    $allow_users               = $ssh::params::allow_users,
     $ciphers                   = $ssh::params::ciphers,
     $client_alive_count_max    = $ssh::params::client_alive_count_max,
     $client_alive_interval     = $ssh::params::client_alive_interval,
+    $deny_groups               = $ssh::params::deny_groups,
+    $deny_users                = $ssh::params::deny_users,
     $hostbased_authentication  = $ssh::params::hostbased_authentication,
     $ignore_rhosts             = $ssh::params::ignore_rhosts,
     $log_level                 = $ssh::params::log_level,
     $macs                      = $ssh::params::macs,
     $max_auth_tries            = $ssh::params::max_auth_tries,
     $package_ensure            = $ssh::params::package_ensure,
+    $package_name              = $ssh::params::package_name,
     $permit_empty_passwords    = $ssh::params::permit_empty_passwords,
     $permit_root_login         = $ssh::params::permit_root_login,
     $permit_user_environment   = $ssh::params::permit_user_environment,
     $port                      = $ssh::params::port,
     $protocol                  = $ssh::params::protocol,
     $rhosts_rsa_authentication = $ssh::params::rhosts_rsa_authentication,
+    $service_enable            = $ssh::params::service_enable,
+    $service_ensure            = $ssh::params::service_ensure,
     $ssh_banner                = $ssh::params::ssh_banner,
-    $sshd_config_template      = $ssh::params::sshd_config_template
+    $sshd_config_template      = $ssh::params::sshd_config_template,
+    $x11_forwarding            = $ssh::params::x11_forwarding,
   ) inherits ssh::params {
 
   validate_re($allow_tcp_forwarding,
@@ -36,7 +44,9 @@ class ssh (
   )
 
   validate_re($ciphers,
-    ['3des-cbc', 'aes128-cbc', 'aes192-cbc', 'aes256-cbc', 'aes128-ctr', 'aes192-ctr', 'aes256-ctr', 'arcfour128', 'arcfour256', 'arcfour', 'blowfish-cbc', 'cast128-cbc']
+    ['3des-cbc', 'aes128-cbc', 'aes192-cbc', 'aes256-cbc', 'aes128-ctr',
+     'aes192-ctr', 'aes256-ctr', 'arcfour128', 'arcfour256', 'arcfour',
+     'blowfish-cbc', 'cast128-cbc']
   )
 
   validate_re($hostbased_authentication,
@@ -48,7 +58,8 @@ class ssh (
   )
 
   validate_re($log_level,
-    ["QUIET", "FATAL", "ERROR", "INFO", "VERBOSE", "DEBUG", "DEBUG1", "DEBUG2", "DEBUG3"]
+    ['QUIET', 'FATAL', 'ERROR', 'INFO', 'VERBOSE',
+     'DEBUG', 'DEBUG1', 'DEBUG2', 'DEBUG3']
   )
 
   validate_re($permit_empty_passwords,
@@ -64,6 +75,10 @@ class ssh (
   )
 
   validate_re($rhosts_rsa_authentication,
+    ['yes', 'no']
+  )
+
+  validate_re($x11_forwarding,
     ['yes', 'no']
   )
 

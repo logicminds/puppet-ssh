@@ -1,8 +1,8 @@
 #
 class ssh::install inherits ssh {
 
-  package { 'openssh-server':
-    ensure        => 'present',
+  package { $package_name:
+    ensure        => $package_ensure,
     allow_virtual => true,
   }
 
