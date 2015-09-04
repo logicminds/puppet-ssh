@@ -1,10 +1,8 @@
-## MAC OS
-.DS_Store
-
-## PROJECT::GENERAL
-coverage
-coverage.info
-rdoc
+.*.sw?
 pkg
-tmp
-.project
+spec/fixtures
+.rspec_system
+.vagrant
+.bundle
+vendor
+.idea
