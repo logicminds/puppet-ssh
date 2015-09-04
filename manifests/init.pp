@@ -11,33 +11,34 @@
 # Sample Usage:
 #
 class ssh (
-    $allow_groups              = $ssh::params::allow_groups,
-    $allow_tcp_forwarding      = $ssh::params::allow_tcp_forwarding,
-    $allow_users               = $ssh::params::allow_users,
-    $ciphers                   = $ssh::params::ciphers,
-    $client_alive_count_max    = $ssh::params::client_alive_count_max,
-    $client_alive_interval     = $ssh::params::client_alive_interval,
-    $deny_groups               = $ssh::params::deny_groups,
-    $deny_users                = $ssh::params::deny_users,
-    $hostbased_authentication  = $ssh::params::hostbased_authentication,
-    $ignore_rhosts             = $ssh::params::ignore_rhosts,
-    $log_level                 = $ssh::params::log_level,
-    $macs                      = $ssh::params::macs,
-    $max_auth_tries            = $ssh::params::max_auth_tries,
-    $package_ensure            = $ssh::params::package_ensure,
-    $package_name              = $ssh::params::package_name,
-    $permit_empty_passwords    = $ssh::params::permit_empty_passwords,
-    $permit_root_login         = $ssh::params::permit_root_login,
-    $permit_user_environment   = $ssh::params::permit_user_environment,
-    $port                      = $ssh::params::port,
-    $protocol                  = $ssh::params::protocol,
-    $rhosts_rsa_authentication = $ssh::params::rhosts_rsa_authentication,
-    $service_enable            = $ssh::params::service_enable,
-    $service_ensure            = $ssh::params::service_ensure,
-    $ssh_banner                = $ssh::params::ssh_banner,
-    $sshd_config_template      = $ssh::params::sshd_config_template,
-    $x11_forwarding            = $ssh::params::x11_forwarding,
-  ) inherits ssh::params {
+    $allow_groups              = '',
+    $allow_tcp_forwarding      = 'no',
+    $allow_users               = '',
+    $ciphers                   = 'aes128-ctr,aes192-ctr,aes256-ctr',
+    $client_alive_count_max    = '0',
+    $client_alive_interval     = '300',
+    $deny_groups               = '',
+    $deny_users                = '',
+    $hostbased_authentication  = 'no',
+    $ignore_rhosts             = 'yes',
+    $listen_address            = '0.0.0.0',
+    $log_level                 = 'VERBOSE',
+    $macs                      = 'hmac-sha1',
+    $max_auth_tries            = '4',
+    $package_ensure            = 'present',
+    $package_name              = 'openssh-server',
+    $permit_empty_passwords    = 'no',
+    $permit_root_login         = 'no',
+    $permit_user_environment   = 'no',
+    $port                      = '22',
+    $protocol                  = '2',
+    $rhosts_rsa_authentication = 'no',
+    $service_enable            = true,
+    $service_ensure            = 'running',
+    $ssh_banner                = '/etc/motd',
+    $sshd_config_template      = 'ssh/sshd_config.erb',
+    $x11_forwarding            = 'no',
+  ) {
 
   validate_re($allow_tcp_forwarding,
     ['yes', 'no']
@@ -45,8 +46,8 @@ class ssh (
 
   validate_re($ciphers,
     ['3des-cbc', 'aes128-cbc', 'aes192-cbc', 'aes256-cbc', 'aes128-ctr',
-     'aes192-ctr', 'aes256-ctr', 'arcfour128', 'arcfour256', 'arcfour',
-     'blowfish-cbc', 'cast128-cbc']
+    'aes192-ctr', 'aes256-ctr', 'arcfour128', 'arcfour256', 'arcfour',
+    'blowfish-cbc', 'cast128-cbc']
   )
 
   validate_re($hostbased_authentication,
@@ -59,7 +60,7 @@ class ssh (
 
   validate_re($log_level,
     ['QUIET', 'FATAL', 'ERROR', 'INFO', 'VERBOSE',
-     'DEBUG', 'DEBUG1', 'DEBUG2', 'DEBUG3']
+    'DEBUG', 'DEBUG1', 'DEBUG2', 'DEBUG3']
   )
 
   validate_re($permit_empty_passwords,
@@ -82,10 +83,39 @@ class ssh (
     ['yes', 'no']
   )
 
-  include ssh::install
-  include ssh::config
-  include ssh::service
 
-  Class['ssh::params'] -> Class ['ssh::install'] -> Class ['ssh::config'] ~> Class ['ssh::service']
+  package { $package_name:
+    ensure        => $package_ensure,
+    allow_virtual => true,
+  }
+
+  # linux06.2001: Set SSH protocol to 2
+  # linux06.2002: Set LogLevel to VERBOSE
+  # linux06.2003: Set permissions on /etc/sshd_config
+  # linux06.2004: Disable SSH X11 Forwarding
+  # linux06.2005: Set SSH MaxAuthTries to 4 or less
+  # linux06.2006: Set IgnoreRhosts to Yes
+  # linux06.2007: Set HostbasedAuthentication to No
+  # linux06.2008: Disable SSH root login
+  # linux06.2009: Set SSH PermitEmptyPasswords to No
+  # linux06.2010: Do not allow users to set environment options
+  # linux06.2011: Use only approved ciphers in counter mode
+  # linux06.2012: Set idle timeout intervale for user login
+  # linux06.2013: Limit access via SSH
+  # linux06.2014: Set SSH banner
+  file { '/etc/ssh/sshd_config':
+    ensure  => file,
+    content => template('ssh/sshd_config.erb'),
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+    require => Package[$package_name],
+    notify  => Service['sshd'],
+  }
+
+  service { 'sshd':
+    ensure => $ssh::service_ensure,
+    enable => $ssh::service_enable,
+  }
 
 }
