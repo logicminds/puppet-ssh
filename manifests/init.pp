@@ -118,4 +118,5 @@ class ssh (
     enable => $ssh::service_enable,
   }
 
+  include ssh::known_hosts
 }

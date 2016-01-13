@@ -69,4 +69,6 @@ describe 'ssh' do
              with({"ensure"=>"running",
                    "enable"=>"true"})
   end
+
+  it { is_expected.to contain_class('ssh::known_hosts')}
 end

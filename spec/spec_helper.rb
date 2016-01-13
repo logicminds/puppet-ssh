@@ -3,9 +3,10 @@ require 'rspec-puppet-utils'
 require 'hiera-puppet-helper'
 
 # Uncomment this to show coverage report, also useful for debugging
-#at_exit { RSpec::Puppet::Coverage.report! }
+at_exit { RSpec::Puppet::Coverage.report! }
 
 RSpec.configure do |c|
     c.formatter = 'documentation'
     c.mock_with :rspec
+    c.parser = 'future'
 end
