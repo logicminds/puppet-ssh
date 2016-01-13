@@ -89,7 +89,7 @@ describe 'ssh::ssh_keys' do
         .with(
            :ensure => 'file',
            :content => 'private_key',
-           :mode => 600,
+           :mode => '0600',
            :owner => 'user1',
            :group => 'user1'
         )
@@ -99,7 +99,7 @@ describe 'ssh::ssh_keys' do
          .with(
            :ensure => 'file',
            :content => 'public_key',
-           :mode => 644,
+           :mode => '0644',
            :owner => 'user1',
            :group => 'user1'
          )

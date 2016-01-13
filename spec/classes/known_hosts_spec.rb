@@ -21,7 +21,7 @@ describe 'ssh::known_hosts' do
   # while all required parameters will require you to add a value
   let(:params) do
     {
-      :host_key_info => {'gitlab.com' => '12343212342423423223', 'git2lab.com' => '12343212342423423223'},
+      :host_key_info => {'gitlab.com' => {'key_type' => 'ssh-rsa', 'key' => '12343212342423423223'}, 'git2lab.com' => {'key_type' => 'ssh-rsa', 'key' => '12343212342423423223' }}
     }
   end
   # add these two lines in a single test block to enable puppet and hiera debug mode
