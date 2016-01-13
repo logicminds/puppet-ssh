@@ -1,7 +1,10 @@
 {
   "author": "Chris Belyea <cbelyea@singlestoneconsulting.com>",
   "dependencies": [
-    { "name": "puppetlabs/stdlib", "version_requirement": ">=1.0.0" }
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">=1.0.0"
+    }
   ],
   "license": "Apache-2.0",
   "name": "nationalit-ssh",
@@ -14,9 +17,13 @@
     }
   ],
   "project_page": "",
-  "requirements": [],
+  "requirements": [
+
+  ],
   "source": "",
   "summary": "SSH Module",
-  "tags": [],
-  "version": "0.1.0"
+  "tags": [
+
+  ],
+  "version": "0.2.0"
 }
