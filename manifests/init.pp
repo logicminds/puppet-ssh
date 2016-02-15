@@ -108,7 +108,7 @@ class ssh (
     content => template('ssh/sshd_config.erb'),
     owner   => 'root',
     group   => 'root',
-    mode    => '0644',
+    mode    => '0600',
     require => Package[$package_name],
     notify  => Service['sshd'],
   }

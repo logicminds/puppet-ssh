@@ -62,7 +62,7 @@ describe 'ssh' do
              with({"ensure"=>"file",
                    "owner"=>"root",
                    "group"=>"root",
-                   "mode"=>"0644"})
+                   "mode"=>"0600"})
   end
   it do
     is_expected.to contain_service('sshd').
