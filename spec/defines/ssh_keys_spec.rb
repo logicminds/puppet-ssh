@@ -10,7 +10,7 @@ describe 'ssh::ssh_keys' do
   #include_context :hiera
 
   let(:title) { 'XXreplace_meXX' }
-  
+
   # below is the facts hash that gives you the ability to mock
   # facts on a per describe/context block.  If you use a fact in your
   # manifest you should mock the facts below.
@@ -42,7 +42,7 @@ describe 'ssh::ssh_keys' do
         }
       end
       it do
-        is_expected.to contain_exec('generate_key')
+        is_expected.to contain_exec('/home/user1 generate_key')
              .with(
                'command' => "cat /dev/zero | ssh-keygen -t rsa -b 2048 -q -N ''",
                'creates' => '/home/user1/.ssh/id_rsa',
@@ -61,7 +61,7 @@ describe 'ssh::ssh_keys' do
         }
       end
       it do
-        is_expected.to contain_exec('generate_key')
+        is_expected.to contain_exec('/home/user1 generate_key')
              .with(
                'command' => "cat /dev/zero | ssh-keygen -t rsa -b 2048 -q -N 'password'",
                'creates' => '/home/user1/.ssh/id_rsa',

@@ -8,7 +8,7 @@ define ssh::ssh_keys(
   # ssh-keygen for user
   # you will then need to add this key to the gitlab account
   if $ssh_rsa_private_key == undef {
-    exec{ 'generate_key':
+    exec{ "${system_user_home_dir} generate_key":
       path    => ['/bin', '/usr/bin', '/usr/sbin'],
       user    => $system_key_user,
       command => "cat /dev/zero | ssh-keygen -t rsa -b 2048 -q -N '${key_password}'",
